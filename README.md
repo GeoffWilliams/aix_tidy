@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/GeoffWilliams/aix_tidy.svg?branch=master)](https://travis-ci.org/GeoffWilliams/aix_tidy)
 # aix_tidy
 
 #### Table of Contents
