@@ -8,8 +8,9 @@
   "project_page": "https://github.com/GeoffWilliams/aix_tidy",
   "issues_url": "https://github.com/GeoffWilliams/aix_tidy/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    {"name":"geoffwilliams-chmod_r","version_requirement":"0.1.2"},
+    {"name":"geoffwilliams-chown_r","version_requirement":"0.2.0"}
   ],
   "data_provider": null
 }
-
