@@ -1,4 +1,7 @@
-class axi_tidy::disable_remote_services {
+# Aix_tidy::Disable_remote_services
+#
+# Disable r* commands and daemons
+class aix_tidy::disable_remote_services {
 
   $commands = ["/usr/bin/rcp", "/usr/bin/rlogin", "/usr/bin/rsh"]
   $daemons  = ["/usr/sbin/rlogind", "/usr/sbin/rshd", "/usr/sbin/tftpd"]
