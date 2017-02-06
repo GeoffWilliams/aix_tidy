@@ -1,0 +1,15 @@
+{
+  "name": "geoffwilliams-aix_tidy",
+  "version": "0.1.0",
+  "author": "geoffwilliams",
+  "summary": "Tidy up and lock down little AIX niggles",
+  "license": "Apache-2.0",
+  "source": "https://github.com/GeoffWilliams/aix_tidy",
+  "project_page": "https://github.com/GeoffWilliams/aix_tidy",
+  "issues_url": "https://github.com/GeoffWilliams/aix_tidy/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null
+}
+
