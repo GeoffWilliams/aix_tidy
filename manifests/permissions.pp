@@ -49,7 +49,10 @@ class aix_tidy::permissions {
 
 
   file { "/smit.log":
-    mode => "0640",
+    ensure => file,
+    owner  => "root",
+    group  => "system",
+    mode   => "0640",
   }
 
   chmod_r { "/var/adm/ras":
@@ -57,19 +60,31 @@ class aix_tidy::permissions {
   }
 
   file { "/var/ct/RMstart.log":
-    mode => "0640",
+    ensure => file,
+    owner  => "root",
+    group  => "system",
+    mode   => "0640",
   }
 
   file { "/var/tmp/dpid2.log":
-    mode => "0640",
+    ensure => file,
+    owner  => "root",
+    group  => "system",
+    mode   => "0640",
   }
 
   file { "/var/tmp/hostmibd.log":
-    mode => "0640",
+    ensure => file,
+    owner  => "root",
+    group  => "system",
+    mode   => "0640",
   }
 
   file { "/var/tmp/snmpd.log":
-    mode => "0640",
+    ensure => file,
+    owner  => "root",
+    group  => "system",
+    mode   => "0640",
   }
 
   file { "/var/adm/sa":
