@@ -1,3 +1,6 @@
+# Aix_tidy::Permissions
+#
+# Lockdown common file permissions on AIX
 class aix_tidy::permissions {
 
   chown_r { "/etc/security":
@@ -77,7 +80,8 @@ class aix_tidy::permissions {
   }
 
 #
-# Search and remediate any user configuration files which have group or world writable access: lsuser -a home ALL |cut -f2 -d= | while read HOMEDIR; do
+# Search and remediate any user configuration files which have group or world writable
+# access: lsuser -a home ALL |cut -f2 -d= | while read HOMEDIR; do
 # echo "Examining $HOMEDIR"
 # if [ -d $HOMEDIR ]; then
 # ls -a $HOMEDIR | grep -Ev
@@ -97,7 +101,8 @@ class aix_tidy::permissions {
 # All user home directories must not have group write or world writable access.
 # Change any home directories which have group or world writable access:
 # NEW_PERMS=750
-# lsuser -c ALL | grep -v ^#name | cut -f1 -d: | while read NAME; do if [ `lsuser -f $NAME | grep id | cut -f2 -d=` -ge 200 ]; then HOME=`lsuser -a home $NAME | cut -f 2 -d =`
+# lsuser -c ALL | grep -v ^#name | cut -f1 -d: | while read NAME; do if
+# [ `lsuser -f $NAME | grep id | cut -f2 -d=` -ge 200 ]; then HOME=`lsuser -a home $NAME | cut -f 2 -d =`
 # echo "Changing $NAME homedir
 # $HOME"
 # chmod $NEW_PERMS $HOME
