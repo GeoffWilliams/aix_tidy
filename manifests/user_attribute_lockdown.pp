@@ -9,9 +9,10 @@ class aix_tidy::user_attribute_lockdown {
     "adm",
     "nobody",
     "uucp",
-    "lpd"
+    "lpd",
   ]
   user { $user_lockdown:
+    ensure     => present,
     attributes => ['login=false','rlogin=false'],
   }
 }
