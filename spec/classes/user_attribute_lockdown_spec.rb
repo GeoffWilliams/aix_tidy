@@ -6,7 +6,7 @@ describe 'aix_tidy::user_attribute_lockdown' do
 
   context 'attributes are set' do
     it {
-      should contain_user('lpd').with({
+      should contain_user('daemon').with({
         :attributes => ['login=false','rlogin=false'],
       })
     }
