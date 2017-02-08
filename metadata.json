@@ -12,7 +12,8 @@
     {"name":"geoffwilliams-chmod_r","version_requirement":"0.1.2"},
     {"name":"geoffwilliams-chown_r","version_requirement":"0.2.0"},
     {"name":"bwilcox-chsec", "version_requirement":"0.1.2"},
-    {"name":"geoffwilliams-chrctcp", "version_requirement":"0.1.1"}
+    {"name":"geoffwilliams-chrctcp", "version_requirement":"0.1.1"},
+    {"name":"geoffwilliams-chsubserver", "version_requirement":"0.1.2"}
   ],
   "data_provider": null
 }
