@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-aix_tidy",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "author": "geoffwilliams",
   "summary": "Tidy up and lock down little AIX niggles",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
     {"name":"bwilcox-chsec", "version_requirement":"0.1.2"},
     {"name":"geoffwilliams-chrctcp", "version_requirement":"0.1.1"},
     {"name":"geoffwilliams-chsubserver", "version_requirement":"0.1.2"},
-    {"name":"geoffwilliams-ssh", "version_requirement":"0.1.2"}
+    {"name":"geoffwilliams-ssh", "version_requirement":"0.2.0"}
   ],
   "data_provider": null
 }
