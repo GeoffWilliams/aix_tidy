@@ -94,6 +94,13 @@ class aix_tidy::permissions {
     mode   => "0755",
   }
 
+  file { "/var/adm/cron":
+    ensure => directory,
+    owner  => "bin",
+    group  => "cron",
+    mode   => "0550",
+  }
+
 #
 # Search and remediate any user configuration files which have group or world writable
 # access: lsuser -a home ALL |cut -f2 -d= | while read HOMEDIR; do
