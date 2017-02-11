@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-aix_tidy",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "author": "geoffwilliams",
   "summary": "Tidy up and lock down little AIX niggles",
   "license": "Apache-2.0",
