@@ -101,6 +101,13 @@ class aix_tidy::permissions {
     mode   => "0550",
   }
 
+  file { "/etc/inetd.conf":
+    ensure => file,
+    owner  => "root",
+    group  => "system",
+    mode   => "0644",
+  }
+
 #
 # Search and remediate any user configuration files which have group or world writable
 # access: lsuser -a home ALL |cut -f2 -d= | while read HOMEDIR; do
