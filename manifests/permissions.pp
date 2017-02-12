@@ -108,6 +108,12 @@ class aix_tidy::permissions {
     mode   => "0644",
   }
 
+  file { "/tmp":
+    ensure => directory,
+    owner  => "root",
+    group  => "root",
+    mode   => "1777",
+  }
 #
 # Search and remediate any user configuration files which have group or world writable
 # access: lsuser -a home ALL |cut -f2 -d= | while read HOMEDIR; do
