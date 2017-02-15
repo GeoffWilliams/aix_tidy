@@ -110,63 +110,8 @@ class aix_tidy::permissions {
 
   file { "/tmp":
     ensure => directory,
-    owner  => "root",
-    group  => "root",
+    owner  => "bin",
+    group  => "bin",
     mode   => "1777",
   }
-#
-# Search and remediate any user configuration files which have group or world writable
-# access: lsuser -a home ALL |cut -f2 -d= | while read HOMEDIR; do
-# echo "Examining $HOMEDIR"
-# if [ -d $HOMEDIR ]; then
-# ls -a $HOMEDIR | grep -Ev
-# "^.$|^..$" | \
-# while read FILE; do
-# if [ -f $FILE ]; then
-# ls -l $FILE
-# chmod go-w $FILE
-# fi
-# done
-# else
-# echo "No home dir for $HOMEDIR"
-# fi
-# done
-# AIX6.x/7.x_180
-# Permissions and Ownership - home directory permissions
-# All user home directories must not have group write or world writable access.
-# Change any home directories which have group or world writable access:
-# NEW_PERMS=750
-# lsuser -c ALL | grep -v ^#name | cut -f1 -d: | while read NAME; do if
-# [ `lsuser -f $NAME | grep id | cut -f2 -d=` -ge 200 ]; then HOME=`lsuser -a home $NAME | cut -f 2 -d =`
-# echo "Changing $NAME homedir
-# $HOME"
-# chmod $NEW_PERMS $HOME
-# fi
-# done
-# NOTE: The permission change is automatically applied to all user directories with a user ID over 200.
-# Modify /usr/lib/security/mkuser.sys to ensure that all new user home directories will be created with a default permission of 750:
-# vi /usr/lib/security/mkuser.sys
-# Replace:
-# mkdir $1
-# With:
-# mkdir $1 && chmod u=rwx,g=rx,g=
-# $1
-# AIX6.x/7.x_181
-# File Permissions - /tmp
-# If "sticky bit" is set on a directory, then only the owner of a file can remove that file from the directory.
-# Set sticky bit File: /tmp
-# Prudential Corporation Asia, COMMERCIAL IN CONFIDENCE 39
-# Regional IT Security, IBM AIX Server Security Configuration Standard
-#
-# AIX6.x/7.x_182
-# Permissions and Ownership - world/group writable directory in root PATH
-# To secure the root users executable PATH, all directories must not be group and world writable.
-# To manually change permissions on the directories:
-# To remove group writable access: chmod g-w <dir name>
-# To remove world writable access:
-# chmod o-w <dir name>
-# To remove both group and world writable access:
-# chmod go-w <dir name>
-# To change the owner of a directory:
-# chown <owner> <dir name>
 }

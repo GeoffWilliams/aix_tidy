@@ -5,7 +5,7 @@ class aix_tidy::dot_profile {
   file { "/etc/security/.profile":
     ensure => file,
     owner  => "root",
-    group  => "root",
+    group  => "security",
     mode   => "0755",
     source => "puppet:///modules/aix_tidy/dot_profile",
   }
