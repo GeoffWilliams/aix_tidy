@@ -7,9 +7,11 @@
 # @param manage_x11_forwarding true to manage (..and disable) x11 forwarding
 #   else leave unmanaged
 class aix_tidy::ssh(
-    $extra_config          = {},
-    $banner_message        = false,
-    $manage_x11_forwarding = false,
+    $extra_config           = {},
+    $banner_message         = false,
+    $manage_x11_forwarding  = false,
+    $client_alive_interval  = undef,
+    $client_alive_count_max = undef,
 ) {
 
   $banner_file = "/etc/ssh/ssh_banner"
@@ -41,9 +43,11 @@ class aix_tidy::ssh(
   }
 
   class { "ssh":
-    extra_config          => $extra_config,
-    banner                => $banner_file,
-    manage_banner         => $manage_banner,
-    manage_x11_forwarding => false,
+    extra_config           => $extra_config,
+    banner                 => $banner_file,
+    manage_banner          => $manage_banner,
+    manage_x11_forwarding  => false,
+    client_alive_interval  => client_alive_interval,
+    client_alive_count_max => client_alive_count_max,
   }
 }
