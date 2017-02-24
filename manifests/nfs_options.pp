@@ -143,16 +143,6 @@ class aix_tidy::nfs_options(
         printf \"\\n\"
       }
     }' ${exports} ${replace_exports}"
-  #   $fix_sec =
-  # "awk '{ if (match(\$0, /[^#].*sec=${allowed_security_methods_re}.*/))
-  # 	print \$0
-  #   else
-  #     gsub(/,?sec=[^,]*/, \"\", \$2)
-  #     printf \$1 \"\\t\" \"sec=${default_authentication}\"
-  #   if (match(\$2, /\\w/))
-  #     printf \",\" \$2
-  #   printf \"\\n\"
-  # }' ${exports} ${replace_exports}"
 
     exec { "${exports} enforce security method":
       command => $fix_sec,
