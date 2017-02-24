@@ -46,7 +46,7 @@ Or you may view the current [generated documentation](https://rawgit.com/GeoffWi
 The documentation is no substitute for reading and understanding the module source code, and all users should ensure they are familiar and comfortable with the operations this module performs before using it.
 
 ## Limitations
-* Solaris 10 only
+* AIX 6.1/7.1 only
 * Not supported by Puppet, Inc.
 
 ## Development
