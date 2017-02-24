@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: aix_tidy::snmp
+  
+    &mdash; Documentation by YARD 0.9.8
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::aix_tidy::snmp";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (a)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">aix_tidy::snmp</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: aix_tidy::snmp</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/snmp.pp
+    </dd>
+  </dl>
+</div>
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Aix_tidy::Snmp</p>
+
+<p>Manage snmpd.conf settings: * disable private, public and system
+communities * Ensure all remaining communities are read only * Ensure all
+remaining communities are restricted to ip range</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ip_range</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;192.168.1.0 255.255.255.0&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>IP address range (network+subnet) to restrict all remaining community
+entries to</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/snmp.pp', line 10</span>
+
+class aix_tidy::snmp(
+    $ip_range = &quot;192.168.1.0 255.255.255.0&quot;,
+) {
+  $snmpd_conf = &quot;/etc/snmpd.conf&quot;
+  $snmpd_tmp = &quot;${snmpd_conf}.tmp&quot;
+  $replace_snmpd_conf = &quot;&gt; ${snmpd_tmp} &amp;&amp; mv ${snmpd_tmp} ${snmpd_conf} &amp;&amp; chgrp system ${snmpd_conf} &amp;&amp; chmod 0640 ${snmpd_conf}&quot;
+
+  file { $snmpd_conf:
+    ensure =&gt; file,
+    owner  =&gt; &quot;root&quot;,
+    group  =&gt; &quot;system&quot;,
+    mode   =&gt; &quot;0640&quot;,
+  }
+
+  # disable all entries in private, system or public communities
+  [&quot;private&quot;, &quot;system&quot;, &quot;public&quot;].each |$community| {
+    $comment_community =
+      &quot;awk &#39;{
+        if (match(\$0, /^community.*${community}/)) {
+          print \&quot;#\&quot; \$0
+        } else {
+          print \$0
+        }
+      }&#39; ${snmpd_conf} ${replace_snmpd_conf}&quot;
+
+    # disable community string
+    exec { &quot;/etc/snmpd.conf community ${community}&quot;:
+      command =&gt; $comment_community,
+      onlyif  =&gt; &quot;grep ^community.*${community} ${snmpd_conf}&quot;,
+      path    =&gt; [&#39;/usr/bin&#39;, &#39;/bin/&#39;]
+    }
+  }
+
+  # Convert readWrite to readOnly
+  $fix_rw =
+    &quot;awk &#39;{
+      if (match(\$0, /^community.*readWrite/)) {
+        gsub(/readWrite/,\&quot;readOnly\&quot;,\$0)
+        print \$0
+      } else {
+        print \$0
+      }
+    }&#39; ${snmpd_conf} ${replace_snmpd_conf}&quot;
+
+  exec { &quot;/etc/snmpd.conf fix readWrite community&quot;:
+    command =&gt; $fix_rw,
+    onlyif  =&gt; &quot;grep &#39;^community.*readWrite&#39; ${snmpd_conf}&quot;,
+    path    =&gt; [&quot;/usr/bin&quot;, &quot;/bin&quot;],
+  }
+
+  if $ip_range {
+    # force all community entries to be restricted to IP address
+    # very slack regexp matching for IP addres + subnet
+    $ip_re = &#39;[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}&#39;
+    $net_re = &quot;${ip_re}\\s+${ip_re}&quot;
+    $net_re_grep = &quot;${ip_re}[[:space:]]+${ip_re}&quot;
+    $fix_ip =
+      &quot;awk &#39;{
+        if (match(\$0, /^community/)) {
+          if (match(\$0, /${net_re}/)) {
+            print \$0
+          } else {
+            print \$1 \&quot; \&quot; \$2 \&quot; \&quot; \&quot;${ip_range}\&quot; \&quot; \&quot; \$3 \&quot; \&quot; \$4
+          }
+        } else {
+          print \$0
+        }
+      }&#39; ${snmpd_conf} ${replace_snmpd_conf}&quot;
+
+    exec { &quot;/etc/snmpd.conf fix missing IP address community&quot;:
+      command =&gt; $fix_ip,
+      onlyif  =&gt; &quot;grep &#39;^community&#39; ${snmpd_conf} | grep -E -v &#39;${net_re_grep}&#39;&quot;,
+      path    =&gt; [&quot;/usr/bin&quot;, &quot;/bin&quot;],
+    }
+  }
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+  Generated on Sat Feb 25 01:10:29 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.8 (ruby-2.2.6).
+</div>
+
+    </div>
+  </body>
+</html>

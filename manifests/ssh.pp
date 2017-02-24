@@ -6,6 +6,8 @@
 # @param banner_message Banner message to display to users or false to disable
 # @param manage_x11_forwarding true to manage (..and disable) x11 forwarding
 #   else leave unmanaged
+# @param client_alive_interval ClientAliveInterval setting for sshd_config
+# @param client_alive_count_max ClientAliveCountMax setting for sshd_config
 class aix_tidy::ssh(
     $extra_config           = {},
     $banner_message         = false,
