@@ -47,7 +47,6 @@ The documentation is no substitute for reading and understanding the module sour
 
 ## Limitations
 * AIX 6.1/7.1 only
-* Not supported by Puppet, Inc.
 
 ## Development
 

@@ -78,7 +78,7 @@ class aix_tidy::nfs_options(
 
     exec { "${exports} disable localhost alias":
       command => $remove_localhost_alias,
-      onlyif  => "grep -E  '^[^#].*access=.*${local_names_re}.*' ${exports}",
+      onlyif  => "grep -E '^[^#].*access=.*${local_names_re}.*' ${exports}",
       path    => [ '/usr/bin', '/bin'],
       notify  => Exec["exportfs"],
       require => File[$exports]
@@ -96,7 +96,7 @@ class aix_tidy::nfs_options(
 
     exec { "${exports} disable missing access":
       command => $comment_no_access,
-      onlyif  => "grep -E -v '^[^#].*access=.*' ${exports}",
+      onlyif  => "grep -E '^[^#]+' ${exports} | grep -E -v '.*access=.*'",
       path    => [ '/usr/bin', '/bin'],
       notify  => Exec["exportfs"],
       require => File["/etc/exports"],
@@ -120,7 +120,7 @@ class aix_tidy::nfs_options(
   }' ${exports} ${replace_exports}"
     exec { "${exports} enforce root squash":
       command => $fix_root_squash,
-      onlyif  => "grep -E -v '^[^#].*root_squash=(${allowed_root_squash_re}).*' ${exports}",
+      onlyif  => "grep -E '^[^#].*root_squash=(${allowed_root_squash_re}).*' ${exports}",
       path    => [ '/usr/bin', '/bin'],
       notify  => Exec["exportfs"],
       require => File["/etc/exports"],
@@ -146,7 +146,7 @@ class aix_tidy::nfs_options(
 
     exec { "${exports} enforce security method":
       command => $fix_sec,
-      onlyif  => "grep -E -v '^[^#].*sec=(${allowed_security_methods_re}).*' ${exports}",
+      onlyif  => "grep -E '^[^#]+' ${exports} | grep -E -v '.*sec=(${allowed_security_methods_re}).*'",
       path    => ['/usr/bin', '/bin'],
       notify  => Exec["exportfs"],
       require => File["/etc/exports"],
